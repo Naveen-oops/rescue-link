@@ -1,0 +1,64 @@
+{
+  "get": {
+    "operationId": "getResources",
+    "tags": [
+      "Resources"
+    ],
+    "summary": "Retrieve a list of resources",
+    "description": "Fetches all resources available in the inventory.",
+    "responses": {
+      "200": {
+        "description": "A list of resources",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "..\\components\\schemas\\ResourceList.json"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Resources not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "post": {
+    "operationId": "createResource",
+    "tags": [
+      "Resources"
+    ],
+    "summary": "Add a new resource",
+    "description": "Creates a new resource in the inventory.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\Resource.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Resource created successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "..\\components\\schemas\\Resource.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+}

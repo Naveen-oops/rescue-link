@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "superClassification",
+    "subClassification",
+    "items",
+    "quantity",
+    "availability"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the resource.",
+      "example": "res-12345"
+    },
+    "superClassification": {
+      "type": "string",
+      "description": "The main category of the resource.",
+      "enum": [
+        "Basic Amenities",
+        "Medical Support",
+        "Sanitation Support",
+        "Survival Amenities",
+        "Rescue Support",
+        "Evacuation Support",
+        "Power and Communication Support"
+      ],
+      "example": "Medical Support"
+    },
+    "subClassification": {
+      "type": "string",
+      "description": "The sub-category of the resource.",
+      "example": "Physical Ailments"
+    },
+    "items": {
+      "type": "array",
+      "description": "List of items included in the resource.",
+      "items": {
+        "type": "string",
+        "example": "Bandages"
+      }
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "The total quantity of the resource available.",
+      "example": 100
+    },
+    "availability": {
+      "type": "boolean",
+      "description": "Indicates if the resource is currently available.",
+      "example": true
+    }
+  },
+  "additionalProperties": false
+}
