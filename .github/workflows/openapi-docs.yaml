@@ -2,7 +2,7 @@ name: Build and Deploy OpenAPI Docs
 on:
   push:
     branches:
-      - openapi-docs
+      - master
 
 jobs:
   build-and-deploy:
