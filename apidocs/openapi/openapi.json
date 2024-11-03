@@ -1,0 +1,22 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "RescueLink",
+    "description": "RescueLink connects disaster victims with local volunteers for vital aid, offering real-time tracking, multilingual AI chat support, offline access, and updates to ensure fast, reliable disaster response.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Resources",
+      "description": "Operations related to resource inventory management."
+    }
+  ],
+  "paths": {
+    "/resources": {
+      "$ref": "paths/resources.json"
+    },
+    "/resources/{resourceId}": {
+      "$ref": "paths/resources_{resourceId}.json"
+    }
+  }
+}

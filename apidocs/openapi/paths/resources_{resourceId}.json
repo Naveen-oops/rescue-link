@@ -1,0 +1,119 @@
+{
+  "get": {
+    "operationId": "getResourceById",
+    "tags": [
+      "Resources"
+    ],
+    "summary": "Retrieve a resource by ID",
+    "description": "Fetches a specific resource by its unique ID.",
+    "parameters": [
+      {
+        "name": "resourceId",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the resource",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Resource found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../components/schemas/Resource.json"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "put": {
+    "operationId": "updateResource",
+    "tags": [
+      "Resources"
+    ],
+    "summary": "Update an existing resource",
+    "description": "Updates the details of an existing resource.",
+    "parameters": [
+      {
+        "name": "resourceId",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the resource",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../components/schemas/Resource.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Resource updated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../components/schemas/Resource.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input"
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "delete": {
+    "operationId": "deleteResource",
+    "tags": [
+      "Resources"
+    ],
+    "summary": "Delete a resource",
+    "description": "Removes a resource from the inventory.",
+    "parameters": [
+      {
+        "name": "resourceId",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the resource",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Resource deleted successfully"
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+}
