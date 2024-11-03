@@ -1,0 +1,32 @@
+{
+    "get": {
+        "tags": [
+            "Allocations"
+        ],
+        "summary": "Retrieve an allocation",
+        "description": "Retrieve details of a specific allocation by ID.",
+        "parameters": [
+            {
+                "name": "allocation_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Allocation details",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../components/schemas/Allocation.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -13,10 +13,16 @@
   ],
   "paths": {
     "/resources": {
-      "$ref": "paths/resources.json"
+      "$ref": "paths/ResourcesPath.json"
     },
     "/resources/{resourceId}": {
-      "$ref": "paths/resources_{resourceId}.json"
+      "$ref": "paths/ResourcesByIdPath.json"
+    },
+    "/allocations":{
+      "$ref": "paths/AllocationsPath.json"
+    },
+    "/allocations/{allocation_id}":{
+      "$ref": "paths/AllocationsByIdPath.json"
     }
   }
 }
