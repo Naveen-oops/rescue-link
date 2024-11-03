@@ -12,7 +12,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "..\\components\\schemas\\ResourceList.json"
+              "$ref": "../components/schemas/ResourceList.json"
             }
           }
         }
@@ -37,7 +37,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\Resource.json"
+            "$ref": "../components/schemas/Resource.json"
           }
         }
       }
@@ -48,7 +48,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "..\\components\\schemas\\Resource.json"
+              "$ref": "../components/schemas/Resource.json"
             }
           }
         }

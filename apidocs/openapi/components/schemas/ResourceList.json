@@ -4,7 +4,7 @@
     "resources": {
       "type": "array",
       "items": {
-        "$ref": ".\\Resource.json"
+        "$ref": "./Resource.json"
       }
     }
   }
