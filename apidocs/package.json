@@ -1,0 +1,15 @@
+{
+  "name": "rescue-link-apidocs",
+  "version": "1.0.0",
+  "description": "Open Api Specification(OAS) for rescue link system",
+  "dependencies": {
+    "@redocly/cli": "1.25.7"
+  },
+  "scripts": {
+    "start": "redocly preview-docs openapi/openapi.json",
+    "build": "redocly bundle openapi/openapi.json -o dist/bundle.yaml",
+    "test": "redocly lint --extends minimal openapi/openapi.json"
+  },
+  "author": "Naveenkumar kumanan",
+  "license": "MIT"
+}

@@ -1,0 +1,275 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Disaster Response Resource Inventory Store API",
+    "description": "API for managing resource inventory for disaster response, including various classifications and resource items.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Disaster Response Team",
+      "email": "contact@disasterresponse.org",
+      "url": "https://disasterresponse.org"
+    }
+  },
+  "tags": [
+    {
+      "name": "Resources",
+      "description": "Operations related to resource inventory management."
+    }
+  ],
+  "paths": {
+    "/resources": {
+      "get": {
+        "operationId": "getResources",
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Retrieve a list of resources",
+        "description": "Fetches all resources available in the inventory.",
+        "responses": {
+          "200": {
+            "description": "A list of resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceList"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resources not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createResource",
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Add a new resource",
+        "description": "Creates a new resource in the inventory.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Resource"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resource created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resource"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/resources/{resourceId}": {
+      "get": {
+        "operationId": "getResourceById",
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Retrieve a resource by ID",
+        "description": "Fetches a specific resource by its unique ID.",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the resource",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateResource",
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Update an existing resource",
+        "description": "Updates the details of an existing resource.",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the resource",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Resource"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resource"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteResource",
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Delete a resource",
+        "description": "Removes a resource from the inventory.",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the resource",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Resource deleted successfully"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Resource": {
+        "type": "object",
+        "required": [
+          "id",
+          "superClassification",
+          "subClassification",
+          "items",
+          "quantity",
+          "availability"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the resource.",
+            "example": "res-12345"
+          },
+          "superClassification": {
+            "type": "string",
+            "description": "The main category of the resource.",
+            "enum": [
+              "Basic Amenities",
+              "Medical Support",
+              "Sanitation Support",
+              "Survival Amenities",
+              "Rescue Support",
+              "Evacuation Support",
+              "Power and Communication Support"
+            ],
+            "example": "Medical Support"
+          },
+          "subClassification": {
+            "type": "string",
+            "description": "The sub-category of the resource.",
+            "example": "Physical Ailments"
+          },
+          "items": {
+            "type": "array",
+            "description": "List of items included in the resource.",
+            "items": {
+              "type": "string",
+              "example": "Bandages"
+            }
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The total quantity of the resource available.",
+            "example": 100
+          },
+          "availability": {
+            "type": "boolean",
+            "description": "Indicates if the resource is currently available.",
+            "example": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResourceList": {
+        "type": "object",
+        "properties": {
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            }
+          }
+        }
+      }
+    }
+  }
+}
