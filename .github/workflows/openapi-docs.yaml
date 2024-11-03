@@ -1,0 +1,24 @@
+name: Build and Deploy OpenAPI Docs
+on:
+  push:
+    branches:
+      - openapi-docs
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Redoc CLI (or alternative)
+        run: cd apidocs && npm install -g redoc-cli
+
+      - name: Generate HTML from OpenAPI
+        run: cd apidocs && npm run publish
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./apidocs/public
