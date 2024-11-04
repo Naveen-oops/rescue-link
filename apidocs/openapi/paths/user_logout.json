@@ -1,0 +1,24 @@
+{
+  "post": {
+    "tags": [
+      "User"
+    ],
+    "summary": "User logout",
+    "security": [
+      {
+        "OAuth2": [
+          "user:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "description": "Logs the user out of the system.",
+    "responses": {
+      "204": {
+        "description": "Logout successful"
+      }
+    }
+  }
+}

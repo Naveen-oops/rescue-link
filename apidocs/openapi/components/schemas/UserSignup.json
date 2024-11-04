@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "victim",
+        "volunteer",
+        "coordinator"
+      ],
+      "description": "Role of the user"
+    }
+  },
+  "required": [
+    "role"
+  ]
+}

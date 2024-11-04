@@ -1,59 +1,62 @@
 {
-    "type": "object",
-    "properties": {
-      "allocation_id": {
-        "type": "string",
-        "format": "uuid",
-        "description": "Unique identifier for the allocation."
-      },
-      "resource_id": {
-        "type": "string",
-        "format": "uuid",
-        "description": "Unique identifier for the resource."
-      },
-      "requester_id": {
-        "type": "string",
-        "format": "uuid",
-        "description": "Unique identifier for the survivor requesting the resource."
-      },
-      "provider_id": {
-        "type": "string",
-        "format": "uuid",
-        "description": "Unique identifier for the volunteer providing the resource."
-      },
-      "status": {
-        "type": "string",
-        "enum": ["Pending", "Fulfilled", "In Progress"],
-        "description": "Current status of the allocation."
-      },
-      "request_date": {
-        "type": "string",
-        "format": "date-time",
-        "description": "Timestamp when the resource was requested."
-      },
-      "delivery_date": {
-        "type": "string",
-        "format": "date-time",
-        "description": "Timestamp when the resource is expected to be delivered or was delivered."
-      },
-      "priority": {
-        "type": "integer",
-        "description": "Priority of the allocation, based on factors such as need and last fulfillment time."
-      },
-      "contact_info": {
-        "type": "string",
-        "description": "Encrypted contact information of the requester."
-      }
+  "type": "object",
+  "properties": {
+    "allocation_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the allocation."
     },
-    "required": [
-      "allocation_id",
-      "resource_id",
-      "requester_id",
-      "provider_id",
-      "status",
-      "request_date",
-      "priority",
-      "contact_info"
-    ]
+    "resource_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the resource."
+    },
+    "requester_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the survivor requesting the resource."
+    },
+    "provider_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the volunteer providing the resource."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Fulfilled",
+        "In Progress"
+      ],
+      "description": "Current status of the allocation."
+    },
+    "request_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the resource was requested."
+    },
+    "delivery_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the resource is expected to be delivered or was delivered."
+    },
+    "priority": {
+      "type": "integer",
+      "description": "Priority of the allocation, based on factors such as need and last fulfillment time."
+    },
+    "contact_info": {
+      "type": "string",
+      "description": "Encrypted contact information of the requester."
+    }
+  },
+  "required": [
+    "allocation_id",
+    "resource_id",
+    "requester_id",
+    "provider_id",
+    "status",
+    "request_date",
+    "priority",
+    "contact_info"
+  ]
 }
-  

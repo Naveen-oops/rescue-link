@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "string"
+    },
+    "reqCategory": {
+      "type": "string"
+    },
+    "noOfMembers": {
+      "type": "integer"
+    },
+    "landmark": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "reqCategory",
+    "noOfMembers",
+    "landmark",
+    "address",
+    "details"
+  ]
+}

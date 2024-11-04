@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "string"
+    },
+    "volunteerId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "requestId",
+    "volunteerId"
+  ]
+}

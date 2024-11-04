@@ -1,0 +1,71 @@
+{
+  "get": {
+    "tags": [
+      "User"
+    ],
+    "summary": "Get user profile by ID",
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "security": [
+      {
+        "OAuth2": [
+          "user:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "User profile details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "..\\components\\schemas\\UserProfile.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "put": {
+    "tags": [
+      "User"
+    ],
+    "summary": "Update user profile",
+    "security": [
+      {
+        "OAuth2": [
+          "user:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\UserProfileUpdate.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "User profile updated."
+      }
+    }
+  }
+}

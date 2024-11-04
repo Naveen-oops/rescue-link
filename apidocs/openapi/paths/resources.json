@@ -1,0 +1,85 @@
+{
+  "get": {
+    "operationId": "getResources",
+    "tags": [
+      "Coordinator"
+    ],
+    "security": [
+      {
+        "OAuth2": [
+          "resource:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "summary": "Retrieve a list of resources",
+    "description": "Fetches all resources available in the inventory.",
+    "responses": {
+      "200": {
+        "description": "A list of resources",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "..\\components\\schemas\\Resource.json"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Resources not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "post": {
+    "operationId": "createResource",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Add a new resource",
+    "description": "Creates a new resource in the inventory.",
+    "security": [
+      {
+        "OAuth2": [
+          "resource:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\Resource.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Resource created successfully"
+      },
+      "400": {
+        "description": "Invalid input"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "get": {
+    "tags": [
+      "Survivor"
+    ],
+    "summary": "View request details by ID",
+    "security": [
+      {
+        "OAuth2": [
+          "requests:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "requestId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Request details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "..\\components\\schemas\\HelpRequest.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

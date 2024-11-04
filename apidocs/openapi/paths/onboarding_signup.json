@@ -1,0 +1,27 @@
+{
+  "post": {
+    "tags": [
+      "Onboarding"
+    ],
+    "summary": "User Signup",
+    "description": "Signs up a user using Google SSO via Okta and stores the role (victim, volunteer, coordinator).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\UserSignup.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "User created successfully."
+      },
+      "400": {
+        "description": "Invalid input."
+      }
+    }
+  }
+}

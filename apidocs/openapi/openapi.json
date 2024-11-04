@@ -1,28 +1,125 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
-    "title": "RescueLink",
-    "description": "RescueLink connects disaster victims with local volunteers for vital aid, offering real-time tracking, multilingual AI chat support, offline access, and updates to ensure fast, reliable disaster response.",
+    "title": "RescueLink API",
+    "description": "API documentation for **RescueLink System**, an emergency resource allocation platform. The RescueLink API facilitates secure access to endpoints for user management, inventory control, delivery tracking, and notifications.",
     "version": "1.0.0"
   },
   "tags": [
     {
-      "name": "Resources",
-      "description": "Operations related to resource inventory management."
+      "name": "Onboarding",
+      "description": "User onboarding and authentication endpoints."
+    },
+    {
+      "name": "User",
+      "description": "Endpoints for user profile management."
+    },
+    {
+      "name": "Survivor",
+      "description": "Endpoints for survivors to request help and track requests."
+    },
+    {
+      "name": "Volunteer",
+      "description": "Endpoints for volunteers to respond to requests."
+    },
+    {
+      "name": "Delivery",
+      "description": "Delivery management and tracking endpoints."
+    },
+    {
+      "name": "Notifications",
+      "description": "Notification service for alerts."
+    },
+    {
+      "name": "Coordinator",
+      "description": "Resource and allocation management for coordinators."
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.rescue-link.io/v1",
+      "description": "Production server"
+    },
+    {
+      "url": "https://staging.api.rescue-link.io/v1",
+      "description": "Staging server"
     }
   ],
   "paths": {
     "/resources": {
-      "$ref": "paths/ResourcesPath.json"
+      "$ref": "paths/resources.json"
     },
     "/resources/{resourceId}": {
-      "$ref": "paths/ResourcesByIdPath.json"
+      "$ref": "paths/resources_{resourceId}.json"
     },
-    "/allocations":{
-      "$ref": "paths/AllocationsPath.json"
+    "/allocations": {
+      "$ref": "paths/allocations.json"
     },
-    "/allocations/{allocation_id}":{
-      "$ref": "paths/AllocationsByIdPath.json"
+    "/allocations/{allocation_id}": {
+      "$ref": "paths/allocations_{allocation_id}.json"
+    },
+    "/onboarding/signup": {
+      "$ref": "paths/onboarding_signup.json"
+    },
+    "/user/profile/{userId}": {
+      "$ref": "paths/user_profile_{userId}.json"
+    },
+    "/user/logout": {
+      "$ref": "paths/user_logout.json"
+    },
+    "/requests": {
+      "$ref": "paths/requests.json"
+    },
+    "/requests/{requestId}": {
+      "$ref": "paths/requests_{requestId}.json"
+    },
+    "/volunteer/respond": {
+      "$ref": "paths/volunteer_respond.json"
+    },
+    "/delivery/track/{deliveryId}": {
+      "$ref": "paths/delivery_track_{deliveryId}.json"
+    },
+    "/notifications/alerts": {
+      "$ref": "paths/notifications_alerts.json"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://rescue-link.io/auth/oauth/dialog",
+            "tokenUrl": "https://rescue-link.io/auth/token",
+            "scopes": {
+              "resource:access": "Access resources as an authenticated user",
+              "resource:manage": "Manage resources as an authorized user"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_key"
+      }
+    }
+  },
+  "x-securityDetails": {
+    "cors": {
+      "description": "CORS compliance is enforced, restricting unauthorized cross-domain interactions to maintain data integrity. Supports authorized domains only."
+    },
+    "encryption": {
+      "description": "All API traffic is encrypted using TLS 1.2+ to secure data in transit."
+    },
+    "rateLimiting": {
+      "description": "Rate limits are implemented per user, with configurable thresholds based on user roles."
+    },
+    "logging": {
+      "description": "Requests are logged with details (user, IP, and time) for security monitoring and anomaly detection."
+    },
+    "compliance": {
+      "description": "The API is GDPR and CCPA compliant, allowing users to request data deletion in accordance with data protection laws."
     }
   }
 }

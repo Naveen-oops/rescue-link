@@ -1,0 +1,33 @@
+{
+  "post": {
+    "tags": [
+      "Notifications"
+    ],
+    "summary": "Send notification alerts",
+    "security": [
+      {
+        "OAuth2": [
+          "notify:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\NotificationAlert.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Notification sent successfully."
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "alertType": {
+      "type": "string",
+      "enum": [
+        "Low Stock",
+        "Fulfilled Request"
+      ]
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "alertType",
+    "message"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "parameters": [
+    {
+      "name": "allocation_id",
+      "in": "path",
+      "required": true,
+      "description": "Unique ID of the allocation",
+      "schema": {
+        "type": "string",
+        "format": "uuid"
+      }
+    }
+  ],
+  "get": {
+    "operationId": "getAllocationById",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Retrieve an allocation by ID",
+    "description": "Retrieve details of a specific allocation by ID.",
+    "security": [
+      {
+        "OAuth2": [
+          "allocation:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Allocation found"
+      },
+      "404": {
+        "description": "Allocation not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "put": {
+    "operationId": "updateAllocation",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Update an allocation",
+    "description": "Update an allocation's details by ID.",
+    "security": [
+      {
+        "OAuth2": [
+          "allocation:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\Allocation.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Allocation updated successfully"
+      },
+      "400": {
+        "description": "Invalid input"
+      },
+      "404": {
+        "description": "Allocation not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "delete": {
+    "operationId": "deleteAllocation",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Delete an allocation",
+    "description": "Deletes a specific allocation by ID.",
+    "security": [
+      {
+        "OAuth2": [
+          "allocation:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Allocation deleted successfully"
+      },
+      "404": {
+        "description": "Allocation not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+}

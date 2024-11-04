@@ -1,0 +1,113 @@
+{
+  "parameters": [
+    {
+      "name": "resourceId",
+      "in": "path",
+      "required": true,
+      "description": "Unique ID of the resource",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "get": {
+    "operationId": "getResourceById",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Retrieve a resource by ID",
+    "description": "Fetches a specific resource by its unique ID.",
+    "security": [
+      {
+        "OAuth2": [
+          "resource:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Resource found"
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "put": {
+    "operationId": "updateResource",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Update an existing resource",
+    "description": "Updates the details of an existing resource.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\Resource.json"
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "OAuth2": [
+          "resource:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Resource updated successfully"
+      },
+      "400": {
+        "description": "Invalid input"
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  },
+  "delete": {
+    "operationId": "deleteResource",
+    "tags": [
+      "Coordinator"
+    ],
+    "summary": "Delete a resource",
+    "description": "Removes a resource from the inventory.",
+    "security": [
+      {
+        "OAuth2": [
+          "resource:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Resource deleted successfully"
+      },
+      "404": {
+        "description": "Resource not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "post": {
+    "tags": [
+      "Volunteer"
+    ],
+    "summary": "Volunteer responds to deliver a request",
+    "security": [
+      {
+        "OAuth2": [
+          "volunteer:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "..\\components\\schemas\\VolunteerResponse.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Response recorded successfully."
+      }
+    }
+  }
+}

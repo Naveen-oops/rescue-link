@@ -1,0 +1,40 @@
+{
+  "get": {
+    "tags": [
+      "Delivery"
+    ],
+    "summary": "Track delivery status",
+    "security": [
+      {
+        "OAuth2": [
+          "delivery:access"
+        ]
+      },
+      {
+        "api_key": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "deliveryId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Delivery tracking info",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "..\\components\\schemas\\DeliveryStatus.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}
