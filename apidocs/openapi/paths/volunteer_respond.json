@@ -19,7 +19,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\VolunteerResponse.json"
+            "$ref": "../components/schemas/VolunteerResponse.json"
           }
         }
       }

@@ -19,7 +19,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\NotificationAlert.json"
+            "$ref": "../components/schemas/NotificationAlert.json"
           }
         }
       }

@@ -27,7 +27,7 @@
                 "allocations": {
                   "type": "array",
                   "items": {
-                    "$ref": "..\\components\\schemas\\Allocation.json"
+                    "$ref": "../components/schemas/Allocation.json"
                   }
                 }
               }
@@ -65,7 +65,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\Allocation.json"
+            "$ref": "../components/schemas/Allocation.json"
           }
         }
       }

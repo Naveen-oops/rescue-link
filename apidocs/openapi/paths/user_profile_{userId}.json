@@ -30,7 +30,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "..\\components\\schemas\\UserProfile.json"
+              "$ref": "../components/schemas/UserProfile.json"
             }
           }
         }
@@ -57,7 +57,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\UserProfileUpdate.json"
+            "$ref": "../components/schemas/UserProfileUpdate.json"
           }
         }
       }

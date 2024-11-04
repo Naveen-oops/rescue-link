@@ -10,7 +10,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\UserSignup.json"
+            "$ref": "../components/schemas/UserSignup.json"
           }
         }
       }

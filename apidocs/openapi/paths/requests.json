@@ -19,7 +19,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "..\\components\\schemas\\HelpRequest.json"
+            "$ref": "../components/schemas/HelpRequest.json"
           }
         }
       }
@@ -30,7 +30,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "..\\components\\schemas\\HelpRequest.json"
+              "$ref": "../components/schemas/HelpRequest.json"
             }
           }
         }
@@ -58,7 +58,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "..\\components\\schemas\\HelpRequestList.json"
+              "$ref": "../components/schemas/HelpRequestList.json"
             }
           }
         }
