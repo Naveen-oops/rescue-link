@@ -1,14 +1,48 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
-    "title": "RescueLink",
-    "description": "RescueLink connects disaster victims with local volunteers for vital aid, offering real-time tracking, multilingual AI chat support, offline access, and updates to ensure fast, reliable disaster response.",
+    "title": "RescueLink API",
+    "description": "API documentation for **RescueLink System**, an emergency resource allocation platform. The RescueLink API facilitates secure access to endpoints for user management, inventory control, delivery tracking, and notifications.",
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "https://api.rescue-link.io/v1",
+      "description": "Production server"
+    },
+    {
+      "url": "https://staging.api.rescue-link.io/v1",
+      "description": "Staging server"
+    }
+  ],
   "tags": [
     {
-      "name": "Resources",
-      "description": "Operations related to resource inventory management."
+      "name": "Onboarding",
+      "description": "User onboarding and authentication endpoints."
+    },
+    {
+      "name": "User",
+      "description": "Endpoints for user profile management."
+    },
+    {
+      "name": "Survivor",
+      "description": "Endpoints for survivors to request help and track requests."
+    },
+    {
+      "name": "Volunteer",
+      "description": "Endpoints for volunteers to respond to requests."
+    },
+    {
+      "name": "Delivery",
+      "description": "Delivery management and tracking endpoints."
+    },
+    {
+      "name": "Notifications",
+      "description": "Notification service for alerts."
+    },
+    {
+      "name": "Coordinator",
+      "description": "Resource and allocation management for coordinators."
     }
   ],
   "paths": {
@@ -16,7 +50,17 @@
       "get": {
         "operationId": "getResources",
         "tags": [
-          "Resources"
+          "Coordinator"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "resource:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
         ],
         "summary": "Retrieve a list of resources",
         "description": "Fetches all resources available in the inventory.",
@@ -26,7 +70,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResourceList"
+                  "type": "object",
+                  "properties": {
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Resource"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -42,10 +94,20 @@
       "post": {
         "operationId": "createResource",
         "tags": [
-          "Resources"
+          "Coordinator"
         ],
         "summary": "Add a new resource",
         "description": "Creates a new resource in the inventory.",
+        "security": [
+          {
+            "OAuth2": [
+              "resource:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -58,14 +120,7 @@
         },
         "responses": {
           "201": {
-            "description": "Resource created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Resource"
-                }
-              }
-            }
+            "description": "Resource created successfully"
           },
           "400": {
             "description": "Invalid input"
@@ -77,34 +132,37 @@
       }
     },
     "/resources/{resourceId}": {
+      "parameters": [
+        {
+          "name": "resourceId",
+          "in": "path",
+          "required": true,
+          "description": "Unique ID of the resource",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "get": {
         "operationId": "getResourceById",
         "tags": [
-          "Resources"
+          "Coordinator"
         ],
         "summary": "Retrieve a resource by ID",
         "description": "Fetches a specific resource by its unique ID.",
-        "parameters": [
+        "security": [
           {
-            "name": "resourceId",
-            "in": "path",
-            "required": true,
-            "description": "Unique ID of the resource",
-            "schema": {
-              "type": "string"
-            }
+            "OAuth2": [
+              "resource:access"
+            ]
+          },
+          {
+            "api_key": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Resource found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Resource"
-                }
-              }
-            }
+            "description": "Resource found"
           },
           "404": {
             "description": "Resource not found"
@@ -117,21 +175,10 @@
       "put": {
         "operationId": "updateResource",
         "tags": [
-          "Resources"
+          "Coordinator"
         ],
         "summary": "Update an existing resource",
         "description": "Updates the details of an existing resource.",
-        "parameters": [
-          {
-            "name": "resourceId",
-            "in": "path",
-            "required": true,
-            "description": "Unique ID of the resource",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -142,16 +189,19 @@
             }
           }
         },
+        "security": [
+          {
+            "OAuth2": [
+              "resource:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Resource updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Resource"
-                }
-              }
-            }
+            "description": "Resource updated successfully"
           },
           "400": {
             "description": "Invalid input"
@@ -167,19 +217,18 @@
       "delete": {
         "operationId": "deleteResource",
         "tags": [
-          "Resources"
+          "Coordinator"
         ],
         "summary": "Delete a resource",
         "description": "Removes a resource from the inventory.",
-        "parameters": [
+        "security": [
           {
-            "name": "resourceId",
-            "in": "path",
-            "required": true,
-            "description": "Unique ID of the resource",
-            "schema": {
-              "type": "string"
-            }
+            "OAuth2": [
+              "resource:access"
+            ]
+          },
+          {
+            "api_key": []
           }
         ],
         "responses": {
@@ -194,9 +243,564 @@
           }
         }
       }
+    },
+    "/allocations": {
+      "get": {
+        "operationId": "getAllocations",
+        "tags": [
+          "Coordinator"
+        ],
+        "summary": "List all allocations",
+        "description": "Retrieve a list of all allocation records.",
+        "security": [
+          {
+            "OAuth2": [
+              "allocation:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of allocations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Allocation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Allocations not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createAllocation",
+        "tags": [
+          "Coordinator"
+        ],
+        "summary": "Create a new allocation",
+        "description": "Add a new allocation to the system.",
+        "security": [
+          {
+            "OAuth2": [
+              "allocation:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Allocation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Allocation created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/allocations/{allocation_id}": {
+      "parameters": [
+        {
+          "name": "allocation_id",
+          "in": "path",
+          "required": true,
+          "description": "Unique ID of the allocation",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getAllocationById",
+        "tags": [
+          "Coordinator"
+        ],
+        "summary": "Retrieve an allocation by ID",
+        "description": "Retrieve details of a specific allocation by ID.",
+        "security": [
+          {
+            "OAuth2": [
+              "allocation:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Allocation found"
+          },
+          "404": {
+            "description": "Allocation not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateAllocation",
+        "tags": [
+          "Coordinator"
+        ],
+        "summary": "Update an allocation",
+        "description": "Update an allocation's details by ID.",
+        "security": [
+          {
+            "OAuth2": [
+              "allocation:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Allocation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Allocation updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Allocation not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteAllocation",
+        "tags": [
+          "Coordinator"
+        ],
+        "summary": "Delete an allocation",
+        "description": "Deletes a specific allocation by ID.",
+        "security": [
+          {
+            "OAuth2": [
+              "allocation:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Allocation deleted successfully"
+          },
+          "404": {
+            "description": "Allocation not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/onboarding/signup": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "summary": "User Signup",
+        "description": "Signs up a user using Google SSO via Okta and stores the role (victim, volunteer, coordinator).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    },
+    "/user/profile/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user profile by ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "user:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user profile",
+        "security": [
+          {
+            "OAuth2": [
+              "user:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProfileUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated."
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User logout",
+        "security": [
+          {
+            "OAuth2": [
+              "user:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "description": "Logs the user out of the system.",
+        "responses": {
+          "204": {
+            "description": "Logout successful"
+          }
+        }
+      }
+    },
+    "/requests": {
+      "post": {
+        "tags": [
+          "Survivor"
+        ],
+        "summary": "Submit a request for help",
+        "security": [
+          {
+            "OAuth2": [
+              "requests:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HelpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelpRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Survivor"
+        ],
+        "summary": "Get all requests",
+        "security": [
+          {
+            "OAuth2": [
+              "requests:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelpRequestList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/requests/{requestId}": {
+      "get": {
+        "tags": [
+          "Survivor"
+        ],
+        "summary": "View request details by ID",
+        "security": [
+          {
+            "OAuth2": [
+              "requests:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelpRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/volunteer/respond": {
+      "post": {
+        "tags": [
+          "Volunteer"
+        ],
+        "summary": "Volunteer responds to deliver a request",
+        "security": [
+          {
+            "OAuth2": [
+              "volunteer:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response recorded successfully."
+          }
+        }
+      }
+    },
+    "/delivery/track/{deliveryId}": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Track delivery status",
+        "security": [
+          {
+            "OAuth2": [
+              "delivery:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "deliveryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery tracking info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/alerts": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Send notification alerts",
+        "security": [
+          {
+            "OAuth2": [
+              "notify:access"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationAlert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification sent successfully."
+          }
+        }
+      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://rescue-link.io/auth/oauth/dialog",
+            "tokenUrl": "https://rescue-link.io/auth/token",
+            "scopes": {
+              "resource:access": "Access resources as an authenticated user",
+              "resource:manage": "Manage resources as an authorized user"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_key"
+      }
+    },
     "schemas": {
       "Resource": {
         "type": "object",
@@ -254,17 +858,221 @@
         },
         "additionalProperties": false
       },
-      "ResourceList": {
+      "Allocation": {
         "type": "object",
         "properties": {
-          "resources": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Resource"
-            }
+          "allocation_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the allocation."
+          },
+          "resource_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the resource."
+          },
+          "requester_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the survivor requesting the resource."
+          },
+          "provider_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the volunteer providing the resource."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Fulfilled",
+              "In Progress"
+            ],
+            "description": "Current status of the allocation."
+          },
+          "request_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the resource was requested."
+          },
+          "delivery_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the resource is expected to be delivered or was delivered."
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Priority of the allocation, based on factors such as need and last fulfillment time."
+          },
+          "contact_info": {
+            "type": "string",
+            "description": "Encrypted contact information of the requester."
+          }
+        },
+        "required": [
+          "allocation_id",
+          "resource_id",
+          "requester_id",
+          "provider_id",
+          "status",
+          "request_date",
+          "priority",
+          "contact_info"
+        ]
+      },
+      "UserSignup": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "victim",
+              "volunteer",
+              "coordinator"
+            ],
+            "description": "Role of the user"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string"
           }
         }
+      },
+      "UserProfileUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "HelpRequest": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "reqCategory": {
+            "type": "string"
+          },
+          "noOfMembers": {
+            "type": "integer"
+          },
+          "landmark": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "reqCategory",
+          "noOfMembers",
+          "landmark",
+          "address",
+          "details"
+        ]
+      },
+      "HelpRequestList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/HelpRequest"
+        }
+      },
+      "VolunteerResponse": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "volunteerId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "requestId",
+          "volunteerId"
+        ]
+      },
+      "DeliveryStatus": {
+        "type": "object",
+        "properties": {
+          "deliveryId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "In Transit",
+              "Delivered"
+            ]
+          },
+          "eta": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NotificationAlert": {
+        "type": "object",
+        "properties": {
+          "alertType": {
+            "type": "string",
+            "enum": [
+              "Low Stock",
+              "Fulfilled Request"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "alertType",
+          "message"
+        ]
       }
+    }
+  },
+  "x-securityDetails": {
+    "cors": {
+      "description": "CORS compliance is enforced, restricting unauthorized cross-domain interactions to maintain data integrity. Supports authorized domains only."
+    },
+    "encryption": {
+      "description": "All API traffic is encrypted using TLS 1.2+ to secure data in transit."
+    },
+    "rateLimiting": {
+      "description": "Rate limits are implemented per user, with configurable thresholds based on user roles."
+    },
+    "logging": {
+      "description": "Requests are logged with details (user, IP, and time) for security monitoring and anomaly detection."
+    },
+    "compliance": {
+      "description": "The API is GDPR and CCPA compliant, allowing users to request data deletion in accordance with data protection laws."
     }
   }
 }
