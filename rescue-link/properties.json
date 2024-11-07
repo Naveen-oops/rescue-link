@@ -1,0 +1,6 @@
+{
+    "logFilePath": {
+        "errorLog": "logs/error.log",
+        "combinedLog": "logs/combined.log"
+    }
+}

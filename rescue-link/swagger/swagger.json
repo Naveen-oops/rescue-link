@@ -1,0 +1,425 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Rescue Link API",
+        "version": "1.0.0",
+        "description": "API for managing survivors, volunteers, and resources."
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000/api"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Register a new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": { "type": "string" },
+                                    "age": { "type": "integer" },
+                                    "profession": { "type": "string" },
+                                    "address": { "type": "string" },
+                                    "phone": { "type": "string" },
+                                    "email": { "type": "string", "format": "email" },
+                                    "password": { "type": "string" },
+                                    "role": { "type": "string", "enum": ["survivor", "volunteer", "provider"] }
+                                },
+                                "required": ["name", "email", "password", "role"]
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": { "description": "User registered successfully" },
+                        "400": { "description": "Email already exists" },
+                        "500": { "description": "Internal server error" }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login a user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": { "type": "string", "format": "email" },
+                                    "password": { "type": "string" }
+                                },
+                                "required": ["email", "password"]
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Successful login",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": { "type": "string" },
+                                            "role": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "401": { "description": "Invalid credentials" },
+                        "500": { "description": "Internal server error" }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/role": {
+            "get": {
+                "summary": "Fetch user role",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user to fetch the role for",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "role": { "type": "string", "enum": ["survivor", "volunteer", "provider"] }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "User not found" },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/users/unregister": {
+            "delete": {
+                "summary": "Unregister all users",
+                "responses": {
+                    "200": { "description": "All users unregistered successfully" },
+                    "404": { "description": "No users found to delete" },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/users/delete/{user_id}": {
+            "delete": {
+                "summary": "Unregister a specific user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user to unregister",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "User unregistered successfully" },
+                    "404": { "description": "User not found" },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/volunteers/register": {
+            "post": {
+                "summary": "Register a new volunteer",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": { "type": "string" },
+                                    "age": { "type": "integer" },
+                                    "profession": { "type": "string" },
+                                    "address": { "type": "string" },
+                                    "phone": { "type": "string" },
+                                    "email": { "type": "string", "format": "email" },
+                                    "id_proof": { "type": "string" },
+                                    "address_proof": { "type": "string" },
+                                    "role": { "type": "string", "enum": ["full-time", "part-time", "self-volunteer"] },
+                                    "transport": { "type": "string", "enum": ["vehicle", "boat", "none"] }
+                                },
+                                "required": ["name", "age", "email", "role", "transport"]
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": { "description": "Volunteer registered successfully" },
+                        "400": { "description": "Age must be 18 or older / Email already exists" },
+                        "500": { "description": "Internal server error" }
+                    }
+                }
+            }
+        },
+        "/volunteers/{volunteer_id}": {
+            "get": {
+                "summary": "Get volunteer by ID",
+                "parameters": [
+                    {
+                        "name": "volunteer_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the volunteer to retrieve",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Volunteer details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "volunteer_id": { "type": "string" },
+                                        "name": { "type": "string" },
+                                        "age": { "type": "integer" },
+                                        "profession": { "type": "string" },
+                                        "address": { "type": "string" },
+                                        "phone": { "type": "string" },
+                                        "email": { "type": "string" },
+                                        "role": { "type": "string" },
+                                        "transport": { "type": "string" },
+                                        "created_at": { "type": "string", "format": "date-time" },
+                                        "id_proof": { "type": "string" },
+                                        "address_proof": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Volunteer not found" },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/volunteers": {
+            "get": {
+                "summary": "Get all volunteers",
+                "responses": {
+                    "200": {
+                        "description": "Volunteers retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "volunteer_id": { "type": "string" },
+                                            "name": { "type": "string" },
+                                            "age": { "type": "integer" },
+                                            "profession": { "type": "string" },
+                                            "address": { "type": "string" },
+                                            "phone": { "type": "string" },
+                                            "email": { "type": "string" },
+                                            "role": { "type": "string" },
+                                            "transport": { "type": "string" },
+                                            "created_at": { "type": "string", "format": "date-time" },
+                                            "id_proof": { "type": "string" },
+                                            "address_proof": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/volunteers/delete/{volunteer_id}": {
+            "delete": {
+                "summary": "Unregister a specific volunteer",
+                "parameters": [
+                    {
+                        "name": "volunteer_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the volunteer to unregister",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "Volunteer unregistered successfully" },
+                    "404": { "description": "Volunteer not found" },
+                    "500": { "description": "Internal server error" }
+                }
+            }
+        },
+        "/resources": {
+            "get": {
+                "summary": "List all available resources",
+                "parameters": [
+                    {
+                        "name": "super_category",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter by resource super category",
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "availability",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter by availability (true/false)",
+                        "schema": { "type": "boolean" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resources listed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resource_id": { "type": "string" },
+                                            "super_category": { "type": "string" },
+                                            "sub_category": { "type": "string" },
+                                            "name": { "type": "string" },
+                                            "quantity": { "type": "integer" },
+                                            "availability": { "type": "boolean" },
+                                            "created_at": { "type": "string", "format": "date-time" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": { "description": "Internal server error" }
+                }
+            },
+            "post": {
+                "summary": "Add a new resource",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "super_category": { "type": "string", "enum": ["Basic Amenities", "Medical Support", "Other"] },
+                                    "sub_category": { "type": "string" },
+                                    "name": { "type": "string" },
+                                    "quantity": { "type": "integer" },
+                                    "availability": { "type": "boolean" }
+                                },
+                                "required": ["super_category", "name", "quantity", "availability"]
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "description": "Resource added successfully",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resource_id": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "500": { "description": "Internal server error" }
+                    }
+                }
+            }
+        },
+        "/resources/{resource_id}": {
+            "get": {
+                "summary": "Get resource details",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the resource to retrieve",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "resource_id": { "type": "string" },
+                                        "super_category": { "type": "string" },
+                                        "sub_category": { "type": "string" },
+                                        "name": { "type": "string" },
+                                        "quantity": { "type": "integer" },
+                                        "availability": { "type": "boolean" },
+                                        "created_at": { "type": "string", "format": "date-time" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Resource not found" },
+                    "500": { "description": "Internal server error" }
+                }
+            },
+            "patch": {
+                "summary": "Update resource details",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the resource to update",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": { "type": "integer" },
+                                    "availability": { "type": "boolean" }
+                                },
+                                "required": ["quantity", "availability"]
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": { "description": "Resource updated successfully" },
+                        "404": { "description": "Resource not found" },
+                        "500": { "description": "Internal server error" }
+                    }
+                }
+            }
+        }
+    }
+}
